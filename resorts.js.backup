@@ -1,0 +1,367 @@
+// ========== إعداد Firebase ==========
+const firebaseConfig = {
+    apiKey: "AIzaSyB4EXvWZUv7WvECvBC5vZP4gztXUkG9H_k",
+    authDomain: "hotel-app-dce62.firebaseapp.com",
+    databaseURL: "https://hotel-app-dce62-default-rtdb.firebaseio.com",
+    projectId: "hotel-app-dce62",
+    storageBucket: "hotel-app-dce62.firebasestorage.app",
+    messagingSenderId: "645954463712",
+    appId: "1:645954463712:web:acd0d977c7d85bbdd4ed85"
+};
+
+let database = null;
+try {
+    firebase.initializeApp(firebaseConfig);
+    database = firebase.database();
+    console.log('✅ Firebase متصل');
+} catch (error) {
+    console.warn('⚠️ Firebase غير متصل');
+}
+
+// ========== البيانات الافتراضية للمنتجعات في أبها ==========
+const defaultResorts = [
+    { id: 1, name: 'منتجع أنانتارا الجبل الأخضر', address: 'الجبل الأخضر، أبها', phone: '+966 17 240 8888', status: 'تم التعاقد' },
+    { id: 2, name: 'منتجع السودة', address: 'منطقة السودة السياحية، أبها', phone: '+966 55 444 2001', status: 'تم التعاقد' },
+    { id: 3, name: 'منتجع قمم السروات', address: 'طريق السودة، أبها', phone: '+966 55 444 2002', status: 'جاري التعاقد' },
+    { id: 4, name: 'شاليهات الهدا', address: 'منطقة الهدا، أبها', phone: '+966 55 444 2003', status: 'تم التعاقد' },
+    { id: 5, name: 'منتجع الضباب', address: 'حي الضباب، أبها', phone: '+966 55 444 2004', status: 'جاري التعاقد' },
+    { id: 6, name: 'منتجع أبها الجديدة', address: 'أبها الجديدة، أبها', phone: '+966 55 444 2005', status: 'تم التعاقد' },
+    { id: 7, name: 'شاليهات الحبلة', address: 'منطقة الحبلة السياحية، أبها', phone: '+966 55 444 2006', status: 'غير متعاقد' },
+    { id: 8, name: 'منتجع الروشن', address: 'حي الروشن، أبها', phone: '+966 55 444 2007', status: 'غير متعاقد' },
+    { id: 9, name: 'منتجع الجرة', address: 'منطقة الجرة، أبها', phone: '+966 55 444 2008', status: 'غير متعاقد' },
+    { id: 10, name: 'شاليهات الشلال', address: 'قرب الشلال، أبها', phone: '+966 55 444 2009', status: 'غير متعاقد' },
+    { id: 11, name: 'منتجع السلام', address: 'حي السلام، أبها', phone: '+966 55 444 2010', status: 'غير متعاقد' },
+    { id: 12, name: 'منتجع الأمير سلطان', address: 'حديقة الأمير سلطان، أبها', phone: '+966 55 444 2011', status: 'غير متعاقد' },
+    { id: 13, name: 'شاليهات المنتزه', address: 'قرب المنتزه الوطني، أبها', phone: '+966 55 444 2012', status: 'غير متعاقد' },
+    { id: 14, name: 'منتجع القريقر', address: 'منطقة القريقر، أبها', phone: '+966 55 444 2013', status: 'غير متعاقد' },
+    { id: 15, name: 'شاليهات الوصايف', address: 'حي الوصايف، أبها', phone: '+966 55 444 2014', status: 'غير متعاقد' },
+    { id: 16, name: 'منتجع الشفا', address: 'حي الشفاء، أبها', phone: '+966 55 444 2015', status: 'غير متعاقد' },
+    { id: 17, name: 'شاليهات الربوة', address: 'حي الربوة، أبها', phone: '+966 55 444 2016', status: 'غير متعاقد' },
+    { id: 18, name: 'منتجع النخيل', address: 'حي النخيل، أبها', phone: '+966 55 444 2017', status: 'غير متعاقد' },
+    { id: 19, name: 'شاليهات المروج', address: 'حي المروج، أبها', phone: '+966 55 444 2018', status: 'غير متعاقد' },
+    { id: 20, name: 'منتجع الياسمين', address: 'حي الياسمين، أبها', phone: '+966 55 444 2019', status: 'غير متعاقد' },
+    { id: 21, name: 'شاليهات الورود', address: 'حي الورود، أبها', phone: '+966 55 444 2020', status: 'غير متعاقد' },
+    { id: 22, name: 'منتجع البستان', address: 'حي البستان، أبها', phone: '+966 55 444 2021', status: 'غير متعاقد' },
+    { id: 23, name: 'شاليهات الندى', address: 'حي الندى، أبها', phone: '+966 55 444 2022', status: 'غير متعاقد' },
+    { id: 24, name: 'منتجع الريان', address: 'حي الريان، أبها', phone: '+966 55 444 2023', status: 'غير متعاقد' },
+    { id: 25, name: 'شاليهات الصفا', address: 'حي الصفا، أبها', phone: '+966 55 444 2024', status: 'غير متعاقد' }
+];
+
+let resorts = [];
+let editingId = null;
+
+// ========== تحميل البيانات ==========
+function loadResorts() {
+    const saved = localStorage.getItem('resorts');
+    if (saved) {
+        resorts = JSON.parse(saved);
+    } else {
+        resorts = [...defaultResorts];
+    }
+    
+    if (database) {
+        database.ref('resorts').once('value').then(snapshot => {
+            const data = snapshot.val();
+            if (data && Object.keys(data).length > 0) {
+                const firebaseResorts = Object.values(data);
+                resorts = firebaseResorts;
+                localStorage.setItem('resorts', JSON.stringify(resorts));
+            } else {
+                saveToFirebase();
+            }
+            displayResorts();
+        }).catch(error => {
+            console.error('خطأ في Firebase:', error);
+            displayResorts();
+        });
+    } else {
+        displayResorts();
+    }
+}
+
+// ========== حفظ البيانات ==========
+function saveResorts() {
+    localStorage.setItem('resorts', JSON.stringify(resorts));
+    saveToFirebase();
+}
+
+function saveToFirebase() {
+    if (database) {
+        const obj = {};
+        resorts.forEach(r => obj[r.id] = r);
+        database.ref('resorts').set(obj).catch(err => console.warn('Firebase error:', err));
+    }
+}
+
+// ========== عرض البيانات ==========
+function displayResorts(filtered = null) {
+    const tbody = document.getElementById('tableBody');
+    tbody.innerHTML = '';
+    
+    const list = filtered || resorts;
+    
+    if (list.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 30px;">لا توجد منتجعات</td></tr>';
+        return;
+    }
+    
+    list.forEach((resort, index) => {
+        let statusClass = '';
+        if (resort.status === 'تم التعاقد') statusClass = 'status-completed';
+        else if (resort.status === 'جاري التعاقد') statusClass = 'status-inprogress';
+        else if (resort.status === 'غير متعاقد') statusClass = 'status-notstarted';
+        else if (resort.status === 'رفض التعاقد') statusClass = 'status-rejected';
+        
+        const searchName = encodeURIComponent(resort.name + ' أبها');
+        const displayPhone = resort.phone.replace('+966', '0').replace(/\s/g, '');
+        
+        let whatsappNumber = resort.phone.replace(/[\s\-\(\)]/g, '');
+        if (whatsappNumber.startsWith('+966')) {
+            whatsappNumber = whatsappNumber.replace('+966', '966');
+        } else if (whatsappNumber.startsWith('00966')) {
+            whatsappNumber = whatsappNumber.replace('00966', '966');
+        } else if (whatsappNumber.startsWith('0')) {
+            whatsappNumber = '966' + whatsappNumber.substring(1);
+        }
+        
+        let callNumber = resort.phone.replace(/[\s\-\(\)]/g, '');
+        if (callNumber.startsWith('+966')) {
+            callNumber = '0' + callNumber.substring(4);
+        } else if (callNumber.startsWith('00966')) {
+            callNumber = '0' + callNumber.substring(5);
+        }
+        
+        const row = `
+            <tr>
+                <td>${index + 1}</td>
+                <td>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span>${resort.name}</span>
+                        <div class="search-buttons">
+                            <a href="https://www.booking.com/search.html?ss=${searchName}" target="_blank" class="btn-search" title="بحث في Booking">🏨</a>
+                            <a href="https://www.google.com/search?q=${searchName}" target="_blank" class="btn-search" title="بحث في Google">🔍</a>
+                            <a href="https://www.google.com/maps/search/${searchName}" target="_blank" class="btn-search" title="فتح في الخرائط">📍</a>
+                        </div>
+                    </div>
+                </td>
+                <td>${resort.address}</td>
+                <td dir="ltr" style="text-align: center;">
+                    <div class="phone-actions">
+                        <span class="phone-number">${displayPhone}</span>
+                        <div class="phone-buttons">
+                            <a href="tel:${callNumber}" class="btn-call">📞</a>
+                            <a href="https://wa.me/${whatsappNumber}" target="_blank" class="btn-whatsapp">💬</a>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <select class="status-select ${statusClass}" onchange="changeStatus(${resort.id}, this.value)">
+                        <option value="تم التعاقد" ${resort.status === 'تم التعاقد' ? 'selected' : ''}>تم التعاقد</option>
+                        <option value="جاري التعاقد" ${resort.status === 'جاري التعاقد' ? 'selected' : ''}>جاري التعاقد</option>
+                        <option value="غير متعاقد" ${resort.status === 'غير متعاقد' ? 'selected' : ''}>غير متعاقد</option>
+                        <option value="رفض التعاقد" ${resort.status === 'رفض التعاقد' ? 'selected' : ''}>رفض التعاقد</option>
+                    </select>
+                </td>
+                <td>
+                    <button class="btn-edit" onclick="editResort(${resort.id})">تعديل</button>
+                    <button class="btn-delete" onclick="deleteResort(${resort.id})">حذف</button>
+                </td>
+            </tr>
+        `;
+        tbody.innerHTML += row;
+    });
+}
+
+// ========== تغيير الحالة ==========
+function changeStatus(id, newStatus) {
+    const resort = resorts.find(r => r.id === id);
+    if (resort) {
+        resort.status = newStatus;
+        saveResorts();
+        displayResorts();
+    }
+}
+
+// ========== نماذج الإضافة والتعديل ==========
+function showAddForm() {
+    document.getElementById('addForm').style.display = 'block';
+    document.getElementById('resortForm').reset();
+    editingId = null;
+}
+
+function hideAddForm() {
+    document.getElementById('addForm').style.display = 'none';
+    editingId = null;
+}
+
+function showUploadForm() {
+    document.getElementById('uploadForm').style.display = 'block';
+}
+
+function hideUploadForm() {
+    document.getElementById('uploadForm').style.display = 'none';
+}
+
+document.getElementById('resortForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('resortName').value;
+    const address = document.getElementById('address').value;
+    const phone = document.getElementById('phone').value;
+    const status = document.getElementById('status').value;
+    
+    if (editingId) {
+        const resort = resorts.find(r => r.id === editingId);
+        if (resort) {
+            resort.name = name;
+            resort.address = address;
+            resort.phone = phone;
+            resort.status = status;
+        }
+    } else {
+        const newId = resorts.length > 0 ? Math.max(...resorts.map(r => r.id)) + 1 : 1;
+        resorts.push({ id: newId, name, address, phone, status });
+    }
+    
+    saveResorts();
+    displayResorts();
+    hideAddForm();
+});
+
+// ========== التعديل والحذف ==========
+function editResort(id) {
+    const resort = resorts.find(r => r.id === id);
+    if (resort) {
+        document.getElementById('resortName').value = resort.name;
+        document.getElementById('address').value = resort.address;
+        document.getElementById('phone').value = resort.phone;
+        document.getElementById('status').value = resort.status;
+        editingId = id;
+        showAddForm();
+    }
+}
+
+function deleteResort(id) {
+    if (confirm('هل أنت متأكد من حذف هذا المنتجع؟')) {
+        resorts = resorts.filter(r => r.id !== id);
+        saveResorts();
+        displayResorts();
+    }
+}
+
+// ========== البحث والفلتر ==========
+function filterResorts() {
+    const searchValue = document.getElementById('searchInput').value.toLowerCase();
+    const statusValue = document.getElementById('statusFilter').value;
+    
+    let filtered = resorts;
+    
+    if (searchValue) {
+        filtered = filtered.filter(r => 
+            r.name.toLowerCase().includes(searchValue) ||
+            r.address.toLowerCase().includes(searchValue) ||
+            r.phone.includes(searchValue)
+        );
+    }
+    
+    if (statusValue !== 'الكل') {
+        filtered = filtered.filter(r => r.status === statusValue);
+    }
+    
+    displayResorts(filtered);
+}
+
+function clearFilters() {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('statusFilter').value = 'الكل';
+    displayResorts();
+}
+
+// ========== التصدير إلى Excel ==========
+function exportToExcel() {
+    const data = resorts.map((r, i) => ({
+        '#': i + 1,
+        'اسم المنتجع': r.name,
+        'العنوان': r.address,
+        'الهاتف': r.phone,
+        'حالة التعاقد': r.status
+    }));
+    
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'المنتجعات');
+    XLSX.writeFile(wb, 'المنتجعات_أبها.xlsx');
+}
+
+// ========== رفع وتحليل الصور ==========
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const imagePreview = document.getElementById('imagePreview');
+const previewImg = document.getElementById('previewImg');
+
+dropZone.addEventListener('click', () => fileInput.click());
+
+fileInput.addEventListener('change', handleFile);
+
+dropZone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropZone.style.borderColor = '#4CAF50';
+});
+
+dropZone.addEventListener('dragleave', () => {
+    dropZone.style.borderColor = '#666';
+});
+
+dropZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropZone.style.borderColor = '#666';
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) {
+        displayImage(file);
+    }
+});
+
+document.addEventListener('paste', (e) => {
+    const items = e.clipboardData.items;
+    for (let item of items) {
+        if (item.type.startsWith('image/')) {
+            const file = item.getAsFile();
+            displayImage(file);
+            showUploadForm();
+        }
+    }
+});
+
+function handleFile(e) {
+    const file = e.target.files[0];
+    if (file) displayImage(file);
+}
+
+function displayImage(file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        previewImg.src = e.target.result;
+        imagePreview.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+}
+
+function processImage() {
+    Tesseract.recognize(previewImg.src, 'ara+eng', {
+        logger: m => console.log(m)
+    }).then(({ data: { text } }) => {
+        console.log('النص المستخرج:', text);
+        
+        const nameMatch = text.match(/([^\n]+(?:منتجع|شاليه|ريزورت|resort)[^\n]+)/i);
+        const phoneMatch = text.match(/(\+?966|05)\s*\d{1,2}\s*\d{3}\s*\d{4}/);
+        
+        if (nameMatch) document.getElementById('resortName').value = nameMatch[1].trim();
+        if (phoneMatch) document.getElementById('phone').value = phoneMatch[0];
+        
+        showAddForm();
+        hideUploadForm();
+    });
+}
+
+// ========== تهيئة التطبيق ==========
+window.onload = loadResorts;

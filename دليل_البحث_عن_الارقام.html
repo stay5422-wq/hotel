@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دليل البحث عن الأرقام الحقيقية</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .warning {
+            background: #ff6b6b;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .search-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .search-box h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+        .links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .step {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+        }
+        .code-block {
+            background: #2d3748;
+            color: #68d391;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 دليل البحث عن الأرقام الحقيقية</h1>
+        
+        <div class="warning">
+            <strong>⚠️ تنبيه مهم:</strong> الأرقام الموجودة حالياً في النظام هي أرقام تجريبية عامة. يجب عليك التحقق منها وتحديثها بأرقام حقيقية من المصادر أدناه.
+        </div>
+
+        <div class="search-box">
+            <h3>🏨 ابحث عن رقم فندق/شقة/منتجع</h3>
+            <input type="text" id="hotelName" placeholder="اكتب اسم الفندق هنا..." onkeyup="updateLinks()">
+            <select id="cityName" onchange="updateLinks()">
+                <option value="">اختر المدينة</option>
+                <option value="الرياض">الرياض</option>
+                <option value="جدة">جدة</option>
+                <option value="مكة">مكة المكرمة</option>
+                <option value="المدينة">المدينة المنورة</option>
+                <option value="الدمام">الدمام</option>
+                <option value="الطائف">الطائف</option>
+                <option value="تبوك">تبوك</option>
+                <option value="بريدة">بريدة</option>
+                <option value="خميس مشيط">خميس مشيط</option>
+                <option value="أبها">أبها</option>
+                <option value="نجران">نجران</option>
+                <option value="جيزان">جيزان</option>
+                <option value="حائل">حائل</option>
+                <option value="الخبر">الخبر</option>
+                <option value="الجبيل">الجبيل</option>
+            </select>
+            
+            <div class="links">
+                <a href="#" id="googleMapsLink" class="btn" target="_blank">🗺️ Google Maps</a>
+                <a href="#" id="bookingLink" class="btn" target="_blank">🏨 Booking.com</a>
+                <a href="#" id="agodaLink" class="btn" target="_blank">🏨 Agoda</a>
+                <a href="#" id="googleSearchLink" class="btn" target="_blank">🔍 Google</a>
+            </div>
+        </div>
+
+        <h2 style="color: #667eea; margin: 30px 0 20px 0;">📋 خطوات الحصول على الرقم:</h2>
+        
+        <div class="step">
+            <strong>1️⃣ من Google Maps:</strong>
+            <ul style="margin-top: 10px;">
+                <li>اضغط على زر "Google Maps" أعلاه</li>
+                <li>ابحث عن الفندق/الشقة في الموقع</li>
+                <li>افتح بطاقة المكان</li>
+                <li>انسخ رقم الهاتف</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <strong>2️⃣ من Booking.com:</strong>
+            <ul style="margin-top: 10px;">
+                <li>اضغط على زر "Booking.com"</li>
+                <li>ابحث عن الفندق</li>
+                <li>افتح صفحة التفاصيل</li>
+                <li>ابحث عن "Contact property" أو "معلومات الاتصال"</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <strong>3️⃣ من Agoda:</strong>
+            <ul style="margin-top: 10px;">
+                <li>اضغط على زر "Agoda"</li>
+                <li>ابحث عن العقار</li>
+                <li>اذهب لتفاصيل العقار</li>
+                <li>ابحث عن رقم الهاتف في صفحة التفاصيل</li>
+            </ul>
+        </div>
+
+        <h2 style="color: #667eea; margin: 30px 0 20px 0;">⚙️ كيفية تحديث الرقم في الكود:</h2>
+        
+        <div class="step">
+            <strong>مثال على تحديث رقم في ملف script.js:</strong>
+            <div class="code-block">
+{ id: 1, name: 'قصر أبها', address: 'أبها الجديدة', phone: '0172294444', status: 'تم التعاقد', city: 'أبها' }
+                ↑
+        ضع الرقم الحقيقي هنا (بدون +966)
+            </div>
+        </div>
+
+        <div class="step">
+            <strong>📝 ملاحظات مهمة:</strong>
+            <ul style="margin-top: 10px;">
+                <li>اكتب الرقم بصيغة محلية: <code>0123456789</code></li>
+                <li>لا تضع مسافات أو شرطات في الرقم</li>
+                <li>تأكد من الرقم بالاتصال أولاً</li>
+                <li>بعض الفنادق لديها أكثر من رقم</li>
+            </ul>
+        </div>
+
+        <h2 style="color: #667eea; margin: 30px 0 20px 0;">📂 الملفات التي تحتاج تحديث:</h2>
+        <ul>
+            <li>✅ <strong>script.js</strong> - أرقام الفنادق (50 فندق)</li>
+            <li>✅ <strong>apartments.js</strong> - أرقام الشقق (50 شقة)</li>
+            <li>✅ <strong>resorts.js</strong> - أرقام المنتجعات (50 منتجع)</li>
+            <li>✅ <strong>caravans.js</strong> - أرقام الكرفانات (50 كرفان)</li>
+        </ul>
+
+        <div style="margin-top: 30px; padding: 20px; background: #d4edda; border-radius: 10px; border-left: 4px solid #28a745;">
+            <strong>💡 نصيحة:</strong> ابدأ بتحديث أرقام الفنادق الشهيرة أولاً (الفيصلية، ريتز كارلتون، فور سيزونز، إلخ) لأن أرقامها معروفة ومتوفرة بسهولة.
+        </div>
+    </div>
+
+    <script>
+        function updateLinks() {
+            const hotelName = document.getElementById('hotelName').value;
+            const cityName = document.getElementById('cityName').value;
+            const searchQuery = encodeURIComponent(hotelName + ' ' + cityName + ' السعودية');
+            
+            document.getElementById('googleMapsLink').href = `https://www.google.com/maps/search/${searchQuery}`;
+            document.getElementById('bookingLink').href = `https://www.booking.com/search.html?ss=${searchQuery}`;
+            document.getElementById('agodaLink').href = `https://www.agoda.com/search?city=0&locale=ar-ae&searchText=${searchQuery}`;
+            document.getElementById('googleSearchLink').href = `https://www.google.com/search?q=${searchQuery}+رقم+هاتف`;
+        }
+        
+        // Initialize links
+        updateLinks();
+    </script>
+</body>
+</html>

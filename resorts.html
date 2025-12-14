@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام إدارة المنتجعات</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="stars"></div>
+    
+    <div class="container">
+        <div style="text-align: right; margin-bottom: 20px;">
+            <a href="home.html" class="btn btn-secondary" style="text-decoration: none;">
+                ⬅️ العودة للصفحة الرئيسية
+            </a>
+        </div>
+        
+        <h1>🏖️ نظام إدارة المنتجعات</h1>
+        
+        <!-- أزرار الإجراءات -->
+        <div class="action-buttons">
+            <button onclick="showAddForm()" class="btn btn-primary">
+                ➕ إضافة منتجع جديد
+            </button>
+            <button onclick="showUploadForm()" class="btn btn-secondary">
+                📷 إضافة من صورة
+            </button>
+            <button onclick="exportToExcel()" class="btn btn-export">
+                📥 تصدير إلى Excel
+            </button>
+        </div>
+        
+        <!-- نموذج الإضافة -->
+        <div id="addForm" class="form-container" style="display: none;">
+            <h2>إضافة منتجع جديد</h2>
+            <form id="resortForm">
+                <div class="form-group">
+                    <label>اسم المنتجع:</label>
+                    <input type="text" id="resortName" required>
+                </div>
+                <div class="form-group">
+                    <label>العنوان:</label>
+                    <input type="text" id="address" required>
+                </div>
+                <div class="form-group">
+                    <label>الهاتف:</label>
+                    <input type="text" id="phone" required>
+                </div>
+                <div class="form-group">
+                    <label>حالة التعاقد:</label>
+                    <select id="status" required>
+                        <option value="">اختر الحالة</option>
+                        <option value="تم التعاقد">تم التعاقد</option>
+                        <option value="جاري التعاقد">جاري التعاقد</option>
+                        <option value="غير متعاقد">غير متعاقد</option>
+                        <option value="رفض التعاقد">رفض التعاقد</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-success">حفظ</button>
+                    <button type="button" onclick="hideAddForm()" class="btn btn-cancel">إلغاء</button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- نموذج الرفع -->
+        <div id="uploadForm" class="form-container" style="display: none;">
+            <h2>استيراد من صورة</h2>
+            <div class="drop-zone" id="dropZone">
+                <p>📸 التقط صورة من بوكينج أو أي موقع حجز</p>
+                <p style="font-size: 14px; color: #aaa;">اسحب الصورة أو الصقها بـ Ctrl+V</p>
+                <label for="fileInput" class="btn btn-browse">اختر ملف</label>
+                <input type="file" id="fileInput" accept=".png,.jpg,.jpeg" style="display: none;">
+            </div>
+            <div id="imagePreview" style="display: none; margin-top: 20px;">
+                <img id="previewImg" style="max-width: 100%; border-radius: 10px;">
+                <button onclick="processImage()" class="btn btn-success" style="margin-top: 10px;">استخراج البيانات 🔍</button>
+            </div>
+            <button onclick="hideUploadForm()" class="btn btn-cancel">إغلاق</button>
+        </div>
+        
+        <!-- البحث والفلتر -->
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="🔍 بحث بالاسم أو العنوان أو الهاتف..." onkeyup="filterResorts()">
+            <select id="statusFilter" onchange="filterResorts()">
+                <option value="الكل">جميع الحالات</option>
+                <option value="تم التعاقد">تم التعاقد</option>
+                <option value="جاري التعاقد">جاري التعاقد</option>
+                <option value="غير متعاقد">غير متعاقد</option>
+                <option value="رفض التعاقد">رفض التعاقد</option>
+            </select>
+            <button onclick="clearFilters()" class="btn btn-clear">مسح الفلتر</button>
+        </div>
+        
+        <!-- جدول المنتجعات -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>اسم المنتجع</th>
+                        <th>العنوان</th>
+                        <th>الهاتف</th>
+                        <th>حالة التعاقد</th>
+                        <th>الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 30px;">جاري التحميل...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- المكتبات -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <script src="resorts.js?v=2.0"></script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار قاعدة البيانات الجديدة</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .stat-card {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            border-radius: 15px;
+            transition: transform 0.3s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            color: #ffd700;
+        }
+        .stat-label {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+        .cities {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        .city {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.1em;
+        }
+        .btn {
+            display: inline-block;
+            margin: 10px;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            transition: all 0.3s;
+            border: 2px solid white;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎉 تم التحديث بنجاح!</h1>
+        <p style="font-size: 1.3em;">قاعدة البيانات الجديدة - 50 وحدة لكل مدينة</p>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">750</div>
+                <div class="stat-label">🏨 فندق</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">750</div>
+                <div class="stat-label">🏢 شقة</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">750</div>
+                <div class="stat-label">🏖️ منتجع</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">750</div>
+                <div class="stat-label">🚐 كرفان</div>
+            </div>
+        </div>
+        
+        <div style="background: rgba(255,255,255,0.2); padding: 20px; border-radius: 15px; margin: 30px 0;">
+            <h2 style="font-size: 2em; margin-bottom: 20px;">📊 الإجمالي الكلي</h2>
+            <div style="font-size: 4em; font-weight: bold; color: #ffd700;">3,000</div>
+            <div style="font-size: 1.5em;">وحدة إقامة</div>
+        </div>
+        
+        <h2 style="font-size: 2em; margin: 30px 0;">🌍 المدن المشمولة (15 مدينة)</h2>
+        <div class="cities">
+            <div class="city">الرياض (011)</div>
+            <div class="city">جدة (012)</div>
+            <div class="city">مكة (012)</div>
+            <div class="city">المدينة (014)</div>
+            <div class="city">الدمام (013)</div>
+            <div class="city">الطائف (012)</div>
+            <div class="city">تبوك (014)</div>
+            <div class="city">بريدة (016)</div>
+            <div class="city">خميس مشيط (017)</div>
+            <div class="city">أبها (017)</div>
+            <div class="city">نجران (017)</div>
+            <div class="city">جيزان (017)</div>
+            <div class="city">حائل (016)</div>
+            <div class="city">الخبر (013)</div>
+            <div class="city">الجبيل (013)</div>
+        </div>
+        
+        <div style="margin-top: 40px;">
+            <h2>✨ المميزات الجديدة</h2>
+            <ul style="list-style: none; padding: 0; font-size: 1.2em;">
+                <li style="margin: 15px 0;">⭐ النجوم المتحركة في جميع الصفحات</li>
+                <li style="margin: 15px 0;">🔍 فلتر المدينة يعمل بشكل صحيح</li>
+                <li style="margin: 15px 0;">📱 أرقام هواتف واقعية بأكواد المدن</li>
+                <li style="margin: 15px 0;">⚡ مولد بيانات ديناميكي</li>
+                <li style="margin: 15px 0;">🎨 تصميم احترافي</li>
+            </ul>
+        </div>
+        
+        <div style="margin-top: 50px;">
+            <a href="home.html" class="btn">🏠 الصفحة الرئيسية</a>
+            <a href="hotels.html" class="btn">🏨 الفنادق</a>
+            <a href="apartments.html" class="btn">🏢 الشقق</a>
+            <a href="resorts.html" class="btn">🏖️ المنتجعات</a>
+            <a href="caravans.html" class="btn">🚐 الكرفانات</a>
+        </div>
+        
+        <div style="margin-top: 40px; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 10px;">
+            <h3>💡 كيفية الاستخدام</h3>
+            <p style="font-size: 1.1em;">
+                اختر مدينة من القائمة المنسدلة لعرض 50 وحدة من تلك المدينة فقط.<br>
+                أو اختر "الكل" لعرض جميع الوحدات (750 وحدة).
+            </p>
+        </div>
+    </div>
+</body>
+</html>

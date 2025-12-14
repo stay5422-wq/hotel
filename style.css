@@ -1,0 +1,502 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+    color: #fff;
+    min-height: 100vh;
+    padding: 20px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* النجوم المتحركة */
+.stars {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.stars::before,
+.stars::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    box-shadow: 
+        100px 100px white,
+        200px 150px white,
+        300px 50px white,
+        400px 200px white,
+        500px 100px white,
+        600px 250px white,
+        700px 150px white,
+        800px 50px white,
+        900px 200px white,
+        1000px 100px white,
+        150px 300px white,
+        250px 350px white,
+        350px 250px white,
+        450px 400px white,
+        550px 300px white,
+        650px 450px white,
+        750px 350px white,
+        850px 250px white,
+        950px 400px white,
+        50px 500px white;
+    animation: twinkle 3s infinite;
+}
+
+.stars::after {
+    animation-delay: 1.5s;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* الأزرار */
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: bold;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+}
+
+.btn-export {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: white;
+}
+
+.btn-cancel {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    color: white;
+}
+
+.btn-clear {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+    color: white;
+}
+
+.btn-browse {
+    display: inline-block;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* النماذج */
+.form-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    background: rgba(255,255,255,0.9);
+    color: #000;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.form-group select {
+    cursor: pointer;
+    background: rgba(255,255,255,0.95);
+    color: #000;
+}
+
+.form-group select option {
+    background: #fff;
+    color: #000;
+    padding: 10px;
+    font-weight: 500;
+}
+
+.form-group input::placeholder {
+    color: rgba(0,0,0,0.5);
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* منطقة الرفع */
+.drop-zone {
+    border: 3px dashed rgba(255,255,255,0.3);
+    border-radius: 15px;
+    padding: 40px;
+    text-align: center;
+    margin-bottom: 20px;
+    transition: all 0.3s;
+}
+
+.drop-zone:hover,
+.drop-zone.active {
+    border-color: #667eea;
+    background: rgba(102, 126, 234, 0.1);
+}
+
+/* البحث */
+.search-container {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.search-container input,
+.search-container select {
+    flex: 1;
+    min-width: 200px;
+    padding: 12px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 8px;
+    background: rgba(255,255,255,0.95);
+    color: #000;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.search-container select {
+    cursor: pointer;
+    background: rgba(255,255,255,0.98);
+}
+
+.search-container select option {
+    background: #fff;
+    color: #000;
+    padding: 10px;
+    font-weight: 500;
+}
+
+.search-container input::placeholder {
+    color: rgba(0,0,0,0.6);
+}
+
+/* الجدول */
+.table-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: rgba(102, 126, 234, 0.3);
+}
+
+th, td {
+    padding: 15px;
+    text-align: right;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+th {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+tbody tr {
+    transition: background 0.3s;
+}
+
+tbody tr:hover {
+    background: rgba(255,255,255,0.05);
+}
+
+/* حالات التعاقد */
+.status-completed {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: white;
+}
+
+.status-inprogress {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    color: white;
+}
+
+.status-notstarted {
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    color: #333;
+}
+
+.status-rejected {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+    color: white;
+}
+
+.status-select {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    color: white;
+}
+
+.status-select option {
+    background: #fff;
+    color: #000;
+    padding: 10px;
+    font-weight: 500;
+}
+
+/* أزرار الجدول */
+.btn-edit {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.btn-delete {
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-edit:hover,
+.btn-delete:hover {
+    opacity: 0.8;
+}
+
+/* أزرار الهاتف */
+.phone-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    direction: ltr;
+}
+
+.phone-number {
+    flex: 1;
+}
+
+.phone-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.btn-call,
+.btn-whatsapp {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 50%;
+    text-decoration: none;
+    font-size: 16px;
+    transition: transform 0.3s;
+}
+
+.btn-call {
+    background: #4facfe;
+}
+
+.btn-whatsapp {
+    background: #25D366;
+}
+
+.btn-call:hover,
+.btn-whatsapp:hover {
+    transform: scale(1.2);
+}
+
+/* أزرار البحث */
+.search-buttons {
+    display: flex;
+    gap: 4px;
+}
+
+.btn-search {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    text-align: center;
+    line-height: 28px;
+    border-radius: 50%;
+    background: rgba(102, 126, 234, 0.3);
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.btn-search:hover {
+    transform: scale(1.15);
+    background: rgba(102, 126, 234, 0.5);
+}
+
+/* الموبايل */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.8em;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+    
+    table {
+        font-size: 12px;
+    }
+    
+    th, td {
+        padding: 8px;
+    }
+    
+    th:nth-child(1) { width: 8%; }
+    th:nth-child(2) { width: 25%; }
+    th:nth-child(3) { width: 20%; }
+    th:nth-child(4) { width: 20%; }
+    th:nth-child(5) { width: 17%; }
+    th:nth-child(6) { width: 10%; }
+    
+    .btn-edit,
+    .btn-delete {
+        padding: 6px 10px;
+        font-size: 11px;
+    }
+    
+    .phone-actions {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .phone-buttons {
+        margin-top: 5px;
+    }
+    
+    .btn-call,
+    .btn-whatsapp {
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        font-size: 14px;
+    }
+}
+
+/* تنسيق عام لجميع القوائم المنسدلة */
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: left 10px center;
+    background-size: 18px;
+    padding-left: 35px;
+}
+
+select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+}
+
+/* تأكد من وضوح النص في جميع القوائم */
+select,
+select option {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+option {
+    padding: 10px !important;
+    background: #fff !important;
+    color: #000 !important;
+    font-weight: 500;
+}

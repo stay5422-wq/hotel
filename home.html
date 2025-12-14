@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام إدارة الإقامة السياحية - أبها</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* النجوم المتحركة */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .stars::before,
+        .stars::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            box-shadow: 
+                100px 100px white, 200px 150px white, 300px 50px white,
+                400px 200px white, 500px 100px white, 600px 250px white,
+                700px 150px white, 800px 50px white, 900px 200px white,
+                1000px 100px white, 150px 300px white, 250px 350px white,
+                350px 250px white, 450px 400px white, 550px 300px white,
+                650px 450px white, 750px 350px white, 850px 250px white,
+                950px 400px white, 50px 500px white;
+            animation: twinkle 3s infinite;
+        }
+
+        .stars::after {
+            animation-delay: 1.5s;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 1000px;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: fadeIn 1s;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #aaa;
+            margin-bottom: 50px;
+            animation: fadeIn 1.5s;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px 30px;
+            cursor: pointer;
+            transition: all 0.4s;
+            border: 2px solid rgba(255,255,255,0.1);
+            animation: fadeInUp 0.8s;
+            text-decoration: none;
+            color: #fff;
+            display: block;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.05);
+            background: linear-gradient(145deg, rgba(100,150,255,0.3), rgba(100,100,255,0.2));
+            border-color: rgba(100,150,255,0.5);
+            box-shadow: 0 20px 40px rgba(100,150,255,0.3);
+        }
+
+        .card-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            display: block;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
+        }
+
+        .card-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .card-subtitle {
+            font-size: 1em;
+            color: #bbb;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            .subtitle { font-size: 1em; }
+            .card-title { font-size: 1.4em; }
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    
+    <div class="container">
+        <h1>🏨 نظام إدارة الإقامة السياحية</h1>
+        <p class="subtitle">اختر نوع الإقامة للبدء</p>
+        
+        <div class="cards-container">
+            <a href="hotels.html" class="card">
+                <span class="card-icon">🏨</span>
+                <div class="card-title">الفنادق</div>
+                <div class="card-subtitle">إدارة الفنادق والمنشآت الفندقية</div>
+            </a>
+            
+            <a href="apartments.html" class="card">
+                <span class="card-icon">🏢</span>
+                <div class="card-title">الشقق الفندقية</div>
+                <div class="card-subtitle">إدارة الشقق المفروشة والأجنحة</div>
+            </a>
+            
+            <a href="resorts.html" class="card">
+                <span class="card-icon">🏖️</span>
+                <div class="card-title">المنتجعات</div>
+                <div class="card-subtitle">إدارة المنتجعات والشاليهات</div>
+            </a>
+            
+            <a href="caravans.html" class="card">
+                <span class="card-icon">🚐</span>
+                <div class="card-title">الكرفانات</div>
+                <div class="card-subtitle">إدارة المخيمات والكرفانات</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
