@@ -43,8 +43,8 @@ function generateApartmentsData() {
     let id = 1;
     CITIES.forEach(city => {
         const code = CITY_CODES[city];
-        // أبها وخميس مشيط: 300 وحدة | باقي المدن: 50 وحدة
-        const count = (city === 'أبها' || city === 'خميس مشيط') ? 300 : 50;
+        // أبها وخميس مشيط: 100 وحدة | باقي المدن: 50 وحدة (للأداء الأفضل)
+        const count = (city === 'أبها' || city === 'خميس مشيط') ? 100 : 50;
         for (let i = 0; i < count; i++) {
             const status = 'غير متعاقد';
             data.push({
