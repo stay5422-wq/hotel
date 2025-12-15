@@ -145,9 +145,11 @@ let editingId = null;
 
 // ========== تحميل البيانات ==========
 function loadApartments() {
+    console.log('⚙️ جاري تحميل الشقق...');
     // استخدام البيانات المولدة مباشرة (750 شقة)
     apartments = [...defaultApartments];
     console.log('✅ تم تحميل ' + apartments.length + ' شقة');
+    console.log('✅ مثال: ' + apartments[0].name + ' - ' + apartments[0].phone);
     displayApartments();
     
     // حفظ في localStorage للاستخدام المستقبلي

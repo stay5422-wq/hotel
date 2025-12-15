@@ -141,9 +141,11 @@ let editingId = null;
 
 // ========== تحميل البيانات ==========
 function loadCaravans() {
+    console.log('⚙️ جاري تحميل الكرفانات...');
     // استخدام البيانات المولدة مباشرة (750 كرفان)
     caravans = [...defaultCaravans];
     console.log('✅ تم تحميل ' + caravans.length + ' كرفان');
+    console.log('✅ مثال: ' + caravans[0].name + ' - ' + caravans[0].phone);
     displayCaravans();
     
     // حفظ في localStorage للاستخدام المستقبلي

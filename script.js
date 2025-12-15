@@ -141,9 +141,11 @@ let editingId = null;
 
 // ========== تحميل البيانات ==========
 function loadHotels() {
+    console.log('⚙️ جاري تحميل الفنادق...');
     // استخدام البيانات المولدة مباشرة (750 فندق)
     hotels = [...defaultHotels];
     console.log('✅ تم تحميل ' + hotels.length + ' فندق');
+    console.log('✅ مثال: ' + hotels[0].name + ' - ' + hotels[0].phone);
     displayHotels();
     
     // حفظ في localStorage للاستخدام المستقبلي

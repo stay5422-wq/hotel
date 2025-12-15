@@ -141,9 +141,11 @@ let editingId = null;
 
 // ========== تحميل البيانات ==========
 function loadResorts() {
+    console.log('⚙️ جاري تحميل المنتجعات...');
     // استخدام البيانات المولدة مباشرة (750 منتجع)
     resorts = [...defaultResorts];
     console.log('✅ تم تحميل ' + resorts.length + ' منتجع');
+    console.log('✅ مثال: ' + resorts[0].name + ' - ' + resorts[0].phone);
     displayResorts();
     
     // حفظ في localStorage للاستخدام المستقبلي
@@ -229,6 +231,7 @@ function displayResorts(filtered = null) {
                         <div class="phone-buttons">
                             <a href="tel:${callNumber}" class="btn-call">📞</a>
                             <a href="https://wa.me/${whatsappNumber}" target="_blank" class="btn-whatsapp">💬</a>
+                            <button onclick="updatePhone(${resort.id})" class="btn-edit" style="font-size: 12px; padding: 4px 8px;" title="تحديث الرقم">🔄</button>
                         </div>
                     </div>
                 </td>
@@ -257,6 +260,21 @@ function changeStatus(id, newStatus) {
         resort.status = newStatus;
         saveResorts();
         displayResorts();
+    }
+}
+
+// ========== تحديث رقم الهاتف ==========
+function updatePhone(id) {
+    const resort = resorts.find(r => r.id === id);
+    if (!resort) return;
+    
+    const newPhone = prompt('أدخل رقم الهاتف الجديد:', resort.phone);
+    
+    if (newPhone && newPhone.trim() !== '') {
+        resort.phone = newPhone.trim();
+        saveResorts();
+        displayResorts();
+        alert('✅ تم تحديث رقم الهاتف بنجاح!');
     }
 }
 
