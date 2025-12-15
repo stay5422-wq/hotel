@@ -43,8 +43,10 @@ function generateApartmentsData() {
     let id = 1;
     CITIES.forEach(city => {
         const code = CITY_CODES[city];
-        for (let i = 0; i < 50; i++) {
-            const status = 'غير متعاقد'; // الحالة الافتراضية: غير متعاقد
+        // أبها وخميس مشيط: 300 وحدة | باقي المدن: 50 وحدة
+        const count = (city === 'أبها' || city === 'خميس مشيط') ? 300 : 50;
+        for (let i = 0; i < count; i++) {
+            const status = 'غير متعاقد';
             data.push({
                 id: id++,
                 name: APARTMENT_NAMES[i % APARTMENT_NAMES.length],
@@ -55,6 +57,7 @@ function generateApartmentsData() {
             });
         }
     });
+    console.log('✅ تم توليد ' + data.length + ' شقة');
     return data;
 }
 
