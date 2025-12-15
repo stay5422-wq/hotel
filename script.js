@@ -141,32 +141,17 @@ let editingId = null;
 
 // ========== تحميل البيانات ==========
 function loadHotels() {
-    const saved = localStorage.getItem('hotels');
-    if (saved) {
-        hotels = JSON.parse(saved);
-    } else {
-        hotels = [...defaultHotels];
-        localStorage.setItem('hotels', JSON.stringify(hotels));
-    }
+    // استخدام البيانات المولدة مباشرة (750 فندق)
+    hotels = [...defaultHotels];
+    console.log('✅ تم تحميل ' + hotels.length + ' فندق');
+    displayHotels();
     
+    // حفظ في localStorage للاستخدام المستقبلي
+    localStorage.setItem('hotels', JSON.stringify(hotels));
+    
+    // حفظ في Firebase
     if (database) {
-        database.ref('hotels').once('value').then(snapshot => {
-            const data = snapshot.val();
-            if (data && Object.keys(data).length > 0) {
-                const firebaseHotels = Object.values(data);
-                hotels = firebaseHotels;
-                localStorage.setItem('hotels', JSON.stringify(hotels));
-            } else {
-                // إذا Firebase فارغ، احفظ البيانات الافتراضية
-                saveToFirebase();
-            }
-            displayHotels();
-        }).catch(error => {
-            console.error('خطأ في Firebase:', error);
-            displayHotels();
-        });
-    } else {
-        displayHotels();
+        saveToFirebase();
     }
 }
 
