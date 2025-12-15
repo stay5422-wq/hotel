@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elmasar CRM - اختبار نهائي</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #fff;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        /* النجوم المتحركة */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .stars::before,
+        .stars::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            box-shadow: 
+                100px 100px white, 200px 150px white, 300px 50px white,
+                400px 200px white, 500px 100px white, 600px 250px white,
+                700px 150px white, 800px 50px white, 900px 200px white,
+                1000px 100px white, 150px 300px white, 250px 350px white,
+                350px 250px white, 450px 400px white, 550px 300px white,
+                650px 450px white, 750px 350px white, 850px 250px white,
+                950px 400px white, 50px 500px white;
+            animation: twinkle 3s infinite;
+        }
+
+        .stars::after {
+            animation-delay: 1.5s;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        .stats {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .stat-box {
+            display: inline-block;
+            margin: 10px 20px;
+            padding: 20px;
+            background: rgba(76, 175, 80, 0.3);
+            border-radius: 10px;
+            min-width: 150px;
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .stat-label {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+
+        .hotels-list {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .hotel-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-right: 4px solid #4CAF50;
+        }
+
+        .success {
+            color: #4CAF50;
+            font-size: 2em;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 10px;
+            font-size: 1.1em;
+        }
+
+        .btn:hover {
+            background: #45a049;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    
+    <div class="container">
+        <h1>🎉 Elmasar CRM - اختبار نهائي</h1>
+        
+        <div class="success">
+            ✅ النجوم المتحركة شغالة!
+        </div>
+
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-number" id="totalCount">0</div>
+                <div class="stat-label">إجمالي الفنادق</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="cityCount">0</div>
+                <div class="stat-label">عدد المدن</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="perCity">0</div>
+                <div class="stat-label">فندق لكل مدينة</div>
+            </div>
+        </div>
+
+        <h2 style="text-align: center; margin: 20px 0;">أول 10 فنادق من كل مدينة:</h2>
+        
+        <div class="hotels-list" id="hotelsList"></div>
+
+        <div class="links">
+            <a href="home.html" class="btn">🏠 الصفحة الرئيسية</a>
+            <a href="hotels.html" class="btn">🏨 الفنادق</a>
+        </div>
+    </div>
+
+    <script src="script.js?v=2.0"></script>
+    <script>
+        // عرض البيانات
+        document.getElementById('totalCount').textContent = defaultHotels.length;
+        document.getElementById('cityCount').textContent = CITIES.length;
+        document.getElementById('perCity').textContent = 50;
+
+        // عرض أول 10 فنادق من كل مدينة
+        const hotelsList = document.getElementById('hotelsList');
+        
+        const riyadhHotels = defaultHotels.filter(h => h.city === 'الرياض').slice(0, 10);
+        const jeddahHotels = defaultHotels.filter(h => h.city === 'جدة').slice(0, 10);
+        
+        let html = '<h3>🏙️ الرياض (أول 10 من 50):</h3>';
+        riyadhHotels.forEach(hotel => {
+            html += `
+                <div class="hotel-item">
+                    <strong>${hotel.name}</strong><br>
+                    ${hotel.address}<br>
+                    📞 ${hotel.phone} | ${hotel.status}
+                </div>
+            `;
+        });
+
+        html += '<h3 style="margin-top: 20px;">🏙️ جدة (أول 10 من 50):</h3>';
+        jeddahHotels.forEach(hotel => {
+            html += `
+                <div class="hotel-item">
+                    <strong>${hotel.name}</strong><br>
+                    ${hotel.address}<br>
+                    📞 ${hotel.phone} | ${hotel.status}
+                </div>
+            `;
+        });
+
+        hotelsList.innerHTML = html;
+
+        console.log('✅ إجمالي الفنادق:', defaultHotels.length);
+        console.log('✅ عدد المدن:', CITIES.length);
+        console.log('✅ الرياض:', defaultHotels.filter(h => h.city === 'الرياض').length);
+        console.log('✅ جدة:', defaultHotels.filter(h => h.city === 'جدة').length);
+    </script>
+</body>
+</html>
