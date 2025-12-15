@@ -145,31 +145,17 @@ let editingId = null;
 
 // ========== تحميل البيانات ==========
 function loadApartments() {
-    const saved = localStorage.getItem('apartments');
-    if (saved) {
-        apartments = JSON.parse(saved);
-    } else {
-        apartments = [...defaultApartments];
-        localStorage.setItem('apartments', JSON.stringify(apartments));
-    }
+    // استخدام البيانات المولدة مباشرة (750 شقة)
+    apartments = [...defaultApartments];
+    console.log('✅ تم تحميل ' + apartments.length + ' شقة');
+    displayApartments();
     
+    // حفظ في localStorage للاستخدام المستقبلي
+    localStorage.setItem('apartments', JSON.stringify(apartments));
+    
+    // حفظ في Firebase
     if (database) {
-        database.ref('apartments').once('value').then(snapshot => {
-            const data = snapshot.val();
-            if (data && Object.keys(data).length > 0) {
-                const firebaseApartments = Object.values(data);
-                apartments = firebaseApartments;
-                localStorage.setItem('apartments', JSON.stringify(apartments));
-            } else {
-                saveToFirebase();
-            }
-            displayApartments();
-        }).catch(error => {
-            console.error('خطأ في Firebase:', error);
-            displayApartments();
-        });
-    } else {
-        displayApartments();
+        saveToFirebase();
     }
 }
 

@@ -141,31 +141,17 @@ let editingId = null;
 
 // ========== تحميل البيانات ==========
 function loadResorts() {
-    const saved = localStorage.getItem('resorts');
-    if (saved) {
-        resorts = JSON.parse(saved);
-    } else {
-        resorts = [...defaultResorts];
-        localStorage.setItem('resorts', JSON.stringify(resorts));
-    }
+    // استخدام البيانات المولدة مباشرة (750 منتجع)
+    resorts = [...defaultResorts];
+    console.log('✅ تم تحميل ' + resorts.length + ' منتجع');
+    displayResorts();
     
+    // حفظ في localStorage للاستخدام المستقبلي
+    localStorage.setItem('resorts', JSON.stringify(resorts));
+    
+    // حفظ في Firebase
     if (database) {
-        database.ref('resorts').once('value').then(snapshot => {
-            const data = snapshot.val();
-            if (data && Object.keys(data).length > 0) {
-                const firebaseResorts = Object.values(data);
-                resorts = firebaseResorts;
-                localStorage.setItem('resorts', JSON.stringify(resorts));
-            } else {
-                saveToFirebase();
-            }
-            displayResorts();
-        }).catch(error => {
-            console.error('خطأ في Firebase:', error);
-            displayResorts();
-        });
-    } else {
-        displayResorts();
+        saveToFirebase();
     }
 }
 
