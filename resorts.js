@@ -44,7 +44,7 @@ function generateResortsData() {
     CITIES.forEach(city => {
         const code = CITY_CODES[city];
         for (let i = 0; i < 50; i++) {
-            const status = i < 15 ? 'تم التعاقد' : (i < 30 ? 'جاري التعاقد' : (i < 45 ? 'غير متعاقد' : 'رفض التعاقد'));
+            const status = 'غير متعاقد'; // الحالة الافتراضية: غير متعاقد
             data.push({
                 id: id++,
                 name: RESORT_NAMES[i % RESORT_NAMES.length],
