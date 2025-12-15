@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏨 Elmasar CRM - نظام إدارة الفنادق</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* النجوم المتحركة */
+        .stars,
+        .stars::before,
+        .stars::after {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .stars {
+            background: transparent;
+            box-shadow: 
+                10px 10px 2px 1px rgba(255, 255, 255, 0.8),
+                200px 50px 2px 1px rgba(255, 255, 255, 0.8),
+                400px 100px 2px 1px rgba(255, 255, 255, 0.8),
+                600px 150px 2px 1px rgba(255, 255, 255, 0.8),
+                800px 200px 2px 1px rgba(255, 255, 255, 0.8),
+                100px 250px 2px 1px rgba(255, 255, 255, 0.8),
+                300px 300px 2px 1px rgba(255, 255, 255, 0.8),
+                500px 350px 2px 1px rgba(255, 255, 255, 0.8),
+                700px 400px 2px 1px rgba(255, 255, 255, 0.8),
+                900px 450px 2px 1px rgba(255, 255, 255, 0.8);
+            animation: twinkle 3s infinite;
+        }
+
+        .stars::before {
+            content: '';
+            background: transparent;
+            box-shadow: 
+                150px 20px 2px 1px rgba(255, 255, 255, 0.6),
+                350px 70px 2px 1px rgba(255, 255, 255, 0.6),
+                550px 120px 2px 1px rgba(255, 255, 255, 0.6),
+                750px 170px 2px 1px rgba(255, 255, 255, 0.6),
+                50px 220px 2px 1px rgba(255, 255, 255, 0.6),
+                250px 270px 2px 1px rgba(255, 255, 255, 0.6),
+                450px 320px 2px 1px rgba(255, 255, 255, 0.6),
+                650px 370px 2px 1px rgba(255, 255, 255, 0.6),
+                850px 420px 2px 1px rgba(255, 255, 255, 0.6);
+            animation: twinkle 4s infinite;
+        }
+
+        .stars::after {
+            content: '';
+            background: transparent;
+            box-shadow: 
+                75px 35px 2px 1px rgba(255, 255, 255, 0.4),
+                275px 85px 2px 1px rgba(255, 255, 255, 0.4),
+                475px 135px 2px 1px rgba(255, 255, 255, 0.4),
+                675px 185px 2px 1px rgba(255, 255, 255, 0.4),
+                125px 235px 2px 1px rgba(255, 255, 255, 0.4),
+                325px 285px 2px 1px rgba(255, 255, 255, 0.4),
+                525px 335px 2px 1px rgba(255, 255, 255, 0.4),
+                725px 385px 2px 1px rgba(255, 255, 255, 0.4),
+                925px 435px 2px 1px rgba(255, 255, 255, 0.4);
+            animation: twinkle 5s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #1e3c72;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .filters {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        select, input {
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .city-filter {
+            min-width: 200px;
+        }
+
+        .hotels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .hotel-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .hotel-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .hotel-name {
+            font-size: 1.4em;
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .hotel-info {
+            color: #555;
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .status-completed { background: #d4edda; color: #155724; }
+        .status-progress { background: #fff3cd; color: #856404; }
+        .status-pending { background: #f8d7da; color: #721c24; }
+        .status-rejected { background: #e2e3e5; color: #383d41; }
+
+        .no-results {
+            text-align: center;
+            padding: 50px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            color: #666;
+            font-size: 1.3em;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8em; }
+            .hotels-grid { grid-template-columns: 1fr; }
+            .filters { flex-direction: column; }
+            select, input { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    
+    <div class="container">
+        <header>
+            <h1>🏨 Elmasar CRM - نظام إدارة الفنادق</h1>
+            <div class="stats">
+                <div class="stat-box">📊 إجمالي الفنادق: <span id="totalCount">750</span></div>
+                <div class="stat-box">🏙️ المدن: <span id="cityCount">15</span></div>
+                <div class="stat-box">🏨 لكل مدينة: 50 فندق</div>
+            </div>
+        </header>
+
+        <div class="filters">
+            <select class="city-filter" id="cityFilter">
+                <option value="">🌍 جميع المدن</option>
+            </select>
+            <input type="text" class="search-box" id="searchBox" placeholder="🔍 ابحث بالاسم أو العنوان أو الهاتف...">
+        </div>
+
+        <div class="hotels-grid" id="hotelsGrid"></div>
+    </div>
+
+    <script>
+        // المدن السعودية
+        const CITIES = [
+            'الرياض', 'جدة', 'مكة المكرمة', 'المدينة المنورة', 'الدمام',
+            'الطائف', 'تبوك', 'بريدة', 'خميس مشيط', 'أبها',
+            'نجران', 'جيزان', 'حائل', 'الخبر', 'الجبيل'
+        ];
+
+        const CITY_CODES = {
+            'الرياض': '11', 'جدة': '12', 'مكة المكرمة': '12', 'المدينة المنورة': '14',
+            'الدمام': '13', 'الطائف': '12', 'تبوك': '14', 'بريدة': '16',
+            'خميس مشيط': '17', 'أبها': '17', 'نجران': '17', 'جيزان': '17',
+            'حائل': '16', 'الخبر': '13', 'الجبيل': '13'
+        };
+
+        const HOTEL_NAMES = [
+            'فندق الريتز', 'فندق هيلتون', 'فندق ماريوت', 'فندق شيراتون', 'فندق الفيصلية',
+            'فندق الإنتركونتيننتال', 'فندق راديسون بلو', 'فندق موفنبيك', 'فندق كراون بلازا', 'فندق هوليداي إن',
+            'فندق النخيل', 'فندق الورود', 'فندق الياسمين', 'فندق الزهور', 'فندق السلام',
+            'فندق النور', 'فندق الأمل', 'فندق الفجر', 'فندق الضياء', 'فندق المجد',
+            'فندق الخليج', 'فندق البحر', 'فندق الشاطئ', 'فندق الساحل', 'فندق الموج',
+            'فندق الجبل', 'فندق الوادي', 'فندق الهضبة', 'فندق القمة', 'فندق الذروة',
+            'فندق الحديقة', 'فندق الروضة', 'فندق البستان', 'فندق الواحة', 'فندق النخلة',
+            'فندق الفردوس', 'فندق الجنة', 'فندق الربيع', 'فندق الصيف', 'فندق الخريف',
+            'فندق الشتاء', 'فندق الصباح', 'فندق المساء', 'فندق الليل', 'فندق النهار',
+            'فندق القصر', 'فندق الأمير', 'فندق الملك', 'فندق السلطان', 'فندق الباشا'
+        ];
+
+        const NEIGHBORHOODS = [
+            'المروج', 'الملقا', 'النخيل', 'الياسمين', 'الورود',
+            'الربيع', 'الصيف', 'الشتاء', 'الخريف', 'الروضة',
+            'الحمراء', 'الزهراء', 'النهضة', 'السلام', 'الأمل',
+            'الفيصلية', 'العليا', 'السليمانية', 'الخالدية', 'الشفا',
+            'المرجان', 'اللؤلؤ', 'الياقوت', 'الزمرد', 'المرسلات',
+            'النسيم', 'الندى', 'العزيزية', 'البوادي', 'المونسية',
+            'الرحاب', 'الريان', 'الفلاح', 'النور', 'الهدى',
+            'الشروق', 'الغروب', 'الفجر', 'الضحى', 'العصر',
+            'المغرب', 'العشاء', 'الفردوس', 'الجنان', 'الروابي',
+            'التلال', 'الهضاب', 'الجبال', 'الوديان', 'السهول'
+        ];
+
+        // توليد 750 فندق (50 لكل مدينة)
+        function generateHotels() {
+            const hotels = [];
+            let id = 1;
+            
+            CITIES.forEach(city => {
+                const code = CITY_CODES[city];
+                for (let i = 0; i < 50; i++) {
+                    const status = i < 15 ? 'تم التعاقد' : (i < 30 ? 'جاري التعاقد' : (i < 45 ? 'غير متعاقد' : 'رفض التعاقد'));
+                    hotels.push({
+                        id: id++,
+                        name: HOTEL_NAMES[i % HOTEL_NAMES.length],
+                        address: `${NEIGHBORHOODS[i % NEIGHBORHOODS.length]}، ${city}`,
+                        city: city,
+                        phone: `0${code}${2000000 + (i * 1000)}`,
+                        status: status
+                    });
+                }
+            });
+            
+            return hotels;
+        }
+
+        const allHotels = generateHotels();
+        let filteredHotels = [...allHotels];
+
+        // ملء قائمة المدن
+        function populateCityFilter() {
+            const cityFilter = document.getElementById('cityFilter');
+            CITIES.forEach(city => {
+                const option = document.createElement('option');
+                option.value = city;
+                option.textContent = city;
+                cityFilter.appendChild(option);
+            });
+        }
+
+        // عرض الفنادق
+        function displayHotels(hotels) {
+            const grid = document.getElementById('hotelsGrid');
+            
+            if (hotels.length === 0) {
+                grid.innerHTML = '<div class="no-results">😔 لا توجد نتائج مطابقة</div>';
+                return;
+            }
+
+            grid.innerHTML = hotels.map(hotel => `
+                <div class="hotel-card">
+                    <div class="hotel-name">${hotel.name}</div>
+                    <div class="hotel-info">📍 ${hotel.address}</div>
+                    <div class="hotel-info">📞 ${hotel.phone}</div>
+                    <div class="hotel-info">🆔 رقم المعرف: ${hotel.id}</div>
+                    <span class="status ${getStatusClass(hotel.status)}">${hotel.status}</span>
+                </div>
+            `).join('');
+        }
+
+        function getStatusClass(status) {
+            if (status === 'تم التعاقد') return 'status-completed';
+            if (status === 'جاري التعاقد') return 'status-progress';
+            if (status === 'غير متعاقد') return 'status-pending';
+            return 'status-rejected';
+        }
+
+        // الفلترة
+        function filterHotels() {
+            const cityFilter = document.getElementById('cityFilter').value;
+            const searchText = document.getElementById('searchBox').value.toLowerCase();
+
+            filteredHotels = allHotels.filter(hotel => {
+                const matchCity = !cityFilter || hotel.city === cityFilter;
+                const matchSearch = !searchText || 
+                    hotel.name.toLowerCase().includes(searchText) ||
+                    hotel.address.toLowerCase().includes(searchText) ||
+                    hotel.phone.includes(searchText);
+                
+                return matchCity && matchSearch;
+            });
+
+            displayHotels(filteredHotels);
+            document.getElementById('totalCount').textContent = filteredHotels.length;
+        }
+
+        // التهيئة
+        document.addEventListener('DOMContentLoaded', () => {
+            populateCityFilter();
+            displayHotels(allHotels);
+            
+            document.getElementById('cityFilter').addEventListener('change', filterHotels);
+            document.getElementById('searchBox').addEventListener('input', filterHotels);
+            
+            console.log('✅ تم تحميل 750 فندق بنجاح!');
+            console.log('✅ النجوم المتحركة شغالة!');
+            console.log('✅ فلتر المدن شغال!');
+        });
+    </script>
+</body>
+</html>
