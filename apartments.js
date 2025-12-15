@@ -145,31 +145,10 @@ let editingId = null;
 
 // ========== تحميل البيانات ==========
 function loadApartments() {
-    const saved = localStorage.getItem('apartments');
-    if (saved) {
-        apartments = JSON.parse(saved);
-    } else {
-        apartments = [...defaultApartments];
-    }
-    
-    if (database) {
-        database.ref('apartments').once('value').then(snapshot => {
-            const data = snapshot.val();
-            if (data && Object.keys(data).length > 0) {
-                const firebaseApartments = Object.values(data);
-                apartments = firebaseApartments;
-                localStorage.setItem('apartments', JSON.stringify(apartments));
-            } else {
-                saveToFirebase();
-            }
-            displayApartments();
-        }).catch(error => {
-            console.error('خطأ في Firebase:', error);
-            displayApartments();
-        });
-    } else {
-        displayApartments();
-    }
+    // استخدم البيانات المولّدة دائماً (750 شقة)
+    apartments = [...defaultApartments];
+    localStorage.setItem('apartments', JSON.stringify(apartments));
+    displayApartments();
 }
 
 // ========== حفظ البيانات ==========

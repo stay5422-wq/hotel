@@ -141,31 +141,10 @@ let editingId = null;
 
 // ========== تحميل البيانات ==========
 function loadCaravans() {
-    const saved = localStorage.getItem('caravans');
-    if (saved) {
-        caravans = JSON.parse(saved);
-    } else {
-        caravans = [...defaultCaravans];
-    }
-    
-    if (database) {
-        database.ref('caravans').once('value').then(snapshot => {
-            const data = snapshot.val();
-            if (data && Object.keys(data).length > 0) {
-                const firebaseCaravans = Object.values(data);
-                caravans = firebaseCaravans;
-                localStorage.setItem('caravans', JSON.stringify(caravans));
-            } else {
-                saveToFirebase();
-            }
-            displayCaravans();
-        }).catch(error => {
-            console.error('خطأ في Firebase:', error);
-            displayCaravans();
-        });
-    } else {
-        displayCaravans();
-    }
+    // استخدم البيانات المولّدة دائماً (750 كرفان)
+    caravans = [...defaultCaravans];
+    localStorage.setItem('caravans', JSON.stringify(caravans));
+    displayCaravans();
 }
 
 // ========== حفظ البيانات ==========

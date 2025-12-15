@@ -141,34 +141,10 @@ let editingId = null;
 
 // ========== تحميل البيانات ==========
 function loadHotels() {
-    const saved = localStorage.getItem('hotels');
-    if (saved) {
-        hotels = JSON.parse(saved);
-    } else {
-        hotels = [...defaultHotels];
-    }
-    
-    if (database) {
-        database.ref('hotels').once('value').then(snapshot => {
-            const data = snapshot.val();
-            if (data && Object.keys(data).length > 0) {
-                // دائماً حمّل من Firebase لأنه المصدر المركزي
-                const firebaseHotels = Object.values(data);
-                hotels = firebaseHotels;
-                localStorage.setItem('hotels', JSON.stringify(hotels));
-            } else {
-                // إذا كان Firebase فارغ، احفظ البيانات المحلية فيه
-                saveToFirebase();
-            }
-            displayHotels();
-        }).catch(error => {
-            console.error('خطأ في Firebase:', error);
-            displayHotels();
-        });
-    } else {
-        // إذا Firebase مش شغال، استخدم البيانات المحلية
-        displayHotels();
-    }
+    // استخدم البيانات المولّدة دائماً (750 فندق)
+    hotels = [...defaultHotels];
+    localStorage.setItem('hotels', JSON.stringify(hotels));
+    displayHotels();
 }
 
 // ========== حفظ البيانات ==========
